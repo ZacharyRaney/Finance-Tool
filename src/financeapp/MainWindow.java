@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package financeapp;
+
+import java.util.Vector;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,10 +9,14 @@ package financeapp;
  */
 public class MainWindow extends javax.swing.JFrame {
 
+    Vector lstAccounts; //jList only takes Vectors?
+    Account selectedAccount;
+
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
+        this.lstAccounts = new Vector();
         initComponents();
     }
 
@@ -28,24 +30,24 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        accountList = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        accountTable = new javax.swing.JTable();
+        btnAdd = new javax.swing.JButton();
+        btnReport = new javax.swing.JButton();
+        btdDelete = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        accountList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                accountListValueChanged(evt);
+            }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(accountList);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        accountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -56,16 +58,31 @@ public class MainWindow extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(accountTable);
 
-        jButton1.setText("Add...");
-        jButton1.setToolTipText("");
+        btnAdd.setText("Add...");
+        btnAdd.setToolTipText("");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Report");
+        btnReport.setText("Report");
 
-        jButton3.setText("Delete");
+        btdDelete.setText("Delete");
+        btdDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btdDeleteActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Edit");
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,13 +96,13 @@ public class MainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(btdDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(btnEdit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(btnReport)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -97,15 +114,63 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnAdd)
+                    .addComponent(btnReport)
+                    .addComponent(btdDelete)
+                    .addComponent(btnEdit))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        AddAccount frmAddAccount = new AddAccount(this, true); //Make the window
+        frmAddAccount.setVisible(true);
+
+        if (!"".equals(frmAddAccount.name)) {
+            Account account = new Account(frmAddAccount.name);
+            lstAccounts.add(account);
+            accountList.setListData(lstAccounts);
+
+            //refreshes the list of accounts
+            jScrollPane1.revalidate();
+            jScrollPane1.repaint();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btdDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btdDeleteActionPerformed
+        if (accountList.getSelectedValue() != null) { //is there something to delete?
+            //create a yes, no, cancel dialogue
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this account?");
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                lstAccounts.removeElementAt(accountList.getSelectedIndex()); //remove the account from the vector
+                accountList.setSelectedIndex(0); //set the selected index to another in the list
+                
+                //resets the list
+                accountList.setListData(lstAccounts); 
+                jScrollPane1.revalidate();
+                jScrollPane1.repaint();
+            }
+        }
+    }//GEN-LAST:event_btdDeleteActionPerformed
+
+    private void accountListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_accountListValueChanged
+        if(accountList.getSelectedValue() != null){
+            selectedAccount = (Account) accountList.getSelectedValue();
+        }
+    }//GEN-LAST:event_accountListValueChanged
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        //Reusing add account form
+        AddAccount frmAddAccount = new AddAccount(this, true, selectedAccount.getName()); //Make the window
+        frmAddAccount.setVisible(true);
+        
+        selectedAccount.setName(frmAddAccount.name);
+        
+        jScrollPane1.revalidate();
+        jScrollPane1.repaint();
+    }//GEN-LAST:event_btnEditActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,13 +208,13 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JList jList1;
+    private javax.swing.JList accountList;
+    private javax.swing.JTable accountTable;
+    private javax.swing.JButton btdDelete;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnReport;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
