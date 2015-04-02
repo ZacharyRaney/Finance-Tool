@@ -126,9 +126,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         AddAccount frmAddAccount = new AddAccount(this, true); //Make the window
+        frmAddAccount.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
+        frmAddAccount.setTitle("Add New Account");
         frmAddAccount.setVisible(true);
-
-        if (!"".equals(frmAddAccount.name)) {
+        
+         if (!"".equals(frmAddAccount.name)) {
             Account account = new Account(frmAddAccount.name);
             lstAccounts.add(account);
             accountList.setListData(lstAccounts);
@@ -141,8 +143,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btdDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btdDeleteActionPerformed
         if (accountList.getSelectedValue() != null) { //is there something to delete?
-            //create a yes, no, cancel dialogue
-            int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this account?");
+            //create a yes, no dialogue
+            int dialogResult = JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this account?", "Delete Confirmation",JOptionPane.YES_NO_OPTION);
+            
             if (dialogResult == JOptionPane.YES_OPTION) {
                 lstAccounts.removeElementAt(accountList.getSelectedIndex()); //remove the account from the vector
                 accountList.setSelectedIndex(0); //set the selected index to another in the list
