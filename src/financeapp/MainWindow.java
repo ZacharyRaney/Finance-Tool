@@ -1,5 +1,6 @@
 package financeapp;
 
+import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
@@ -132,8 +133,23 @@ public class MainWindow extends javax.swing.JFrame {
         
          if (!"".equals(frmAddAccount.name)) {
             Account account = new Account(frmAddAccount.name);
-            lstAccounts.add(account);
+            
+              Iterator itr = lstAccounts.iterator();
+               boolean canAdd = true;
+
+            while(itr.hasNext())
+             {
+                Account q = (Account)itr.next();
+                 if (q.getName().equals(account.getName())){
+                JOptionPane.showMessageDialog(this,"Account with that name already exists");
+                canAdd = false;
+            }
+             }
+            if(canAdd){
+                lstAccounts.add(account);
             accountList.setListData(lstAccounts);
+            }
+            
 
             //refreshes the list of accounts
             jScrollPane1.revalidate();
