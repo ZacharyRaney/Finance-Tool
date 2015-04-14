@@ -3,6 +3,8 @@ package financeapp;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -12,6 +14,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     Vector lstAccounts; //jList only takes Vectors?
     Account selectedAccount;
+    DefaultTableModel emptyModel;
 
     /**
      * Creates new form MainWindow
@@ -19,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         this.lstAccounts = new Vector();
         initComponents();
+        emptyModel = (DefaultTableModel) accountTable.getModel();
     }
 
     /**
@@ -38,6 +42,7 @@ public class MainWindow extends javax.swing.JFrame {
         btnReport = new javax.swing.JButton();
         btdDelete = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
+        btnAddTransaction = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,15 +55,27 @@ public class MainWindow extends javax.swing.JFrame {
 
         accountTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Date", "Type", "Category", "Comments/Payee", "Ammount", "Balance"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(accountTable);
 
         btnAdd.setText("Add...");
@@ -85,6 +102,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        btnAddTransaction.setText("Add Transaction");
+        btnAddTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTransactionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,6 +126,8 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(btdDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddTransaction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReport)))
                 .addContainerGap())
@@ -118,7 +144,8 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnReport)
                     .addComponent(btdDelete)
-                    .addComponent(btnEdit))
+                    .addComponent(btnEdit)
+                    .addComponent(btnAddTransaction))
                 .addContainerGap())
         );
 
@@ -130,26 +157,24 @@ public class MainWindow extends javax.swing.JFrame {
         frmAddAccount.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
         frmAddAccount.setTitle("Add New Account");
         frmAddAccount.setVisible(true);
-        
-         if (!"".equals(frmAddAccount.name)) {
-            Account account = new Account(frmAddAccount.name);
-            
-              Iterator itr = lstAccounts.iterator();
-               boolean canAdd = true;
 
-            while(itr.hasNext())
-             {
-                Account q = (Account)itr.next();
-                 if (q.getName().equals(account.getName())){
-                JOptionPane.showMessageDialog(this,"Account with that name already exists");
-                canAdd = false;
+        if (!"".equals(frmAddAccount.name)) {
+            Account account = new Account(frmAddAccount.name);
+
+            Iterator itr = lstAccounts.iterator();
+            boolean canAdd = true;
+
+            while (itr.hasNext()) {
+                Account q = (Account) itr.next();
+                if (q.getName().equals(account.getName())) {
+                    JOptionPane.showMessageDialog(this, "Account with that name already exists");
+                    canAdd = false;
+                }
             }
-             }
-            if(canAdd){
+            if (canAdd) {
                 lstAccounts.add(account);
-            accountList.setListData(lstAccounts);
+                accountList.setListData(lstAccounts);
             }
-            
 
             //refreshes the list of accounts
             jScrollPane1.revalidate();
@@ -160,14 +185,14 @@ public class MainWindow extends javax.swing.JFrame {
     private void btdDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btdDeleteActionPerformed
         if (accountList.getSelectedValue() != null) { //is there something to delete?
             //create a yes, no dialogue
-            int dialogResult = JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this account?", "Delete Confirmation",JOptionPane.YES_NO_OPTION);
-            
+            int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this account?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+
             if (dialogResult == JOptionPane.YES_OPTION) {
                 lstAccounts.removeElementAt(accountList.getSelectedIndex()); //remove the account from the vector
                 accountList.setSelectedIndex(0); //set the selected index to another in the list
-                
+
                 //resets the list
-                accountList.setListData(lstAccounts); 
+                accountList.setListData(lstAccounts);
                 jScrollPane1.revalidate();
                 jScrollPane1.repaint();
             }
@@ -175,8 +200,13 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btdDeleteActionPerformed
 
     private void accountListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_accountListValueChanged
-        if(accountList.getSelectedValue() != null){
+        if (accountList.getSelectedValue() != null) {
             selectedAccount = (Account) accountList.getSelectedValue();
+            accountTable.setModel(selectedAccount.model);
+            jScrollPane2.revalidate();
+            jScrollPane2.repaint();
+        }else{
+            accountTable.setModel(emptyModel);
         }
     }//GEN-LAST:event_accountListValueChanged
 
@@ -184,12 +214,24 @@ public class MainWindow extends javax.swing.JFrame {
         //Reusing add account form
         AddAccount frmAddAccount = new AddAccount(this, true, selectedAccount.getName()); //Make the window
         frmAddAccount.setVisible(true);
-        
+
         selectedAccount.setName(frmAddAccount.name);
-        
+
         jScrollPane1.revalidate();
         jScrollPane1.repaint();
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnAddTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTransactionActionPerformed
+        //model.insertRow(model.getRowCount(), new Object[]{"Test","Type","t","e","s","t"});
+        AddTransaction frmAddTransaction = new AddTransaction(this, true);
+        
+        frmAddTransaction.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
+        frmAddTransaction.setTitle("Add New Account");
+        frmAddTransaction.setVisible(true);
+        
+        selectedAccount.model.insertRow(0, new Object[]{frmAddTransaction.date, frmAddTransaction.type, frmAddTransaction.category, frmAddTransaction.comments, frmAddTransaction.ammount, "0"});
+        //selectedAccount.model.insertRow(0, lstAccounts);
+    }//GEN-LAST:event_btnAddTransactionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,6 +273,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable accountTable;
     private javax.swing.JButton btdDelete;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddTransaction;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReport;
     private javax.swing.JScrollPane jScrollPane1;
