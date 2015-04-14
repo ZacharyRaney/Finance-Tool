@@ -229,7 +229,20 @@ public class MainWindow extends javax.swing.JFrame {
         frmAddTransaction.setTitle("Add New Account");
         frmAddTransaction.setVisible(true);
         
-        selectedAccount.model.insertRow(0, new Object[]{frmAddTransaction.date, frmAddTransaction.type, frmAddTransaction.category, frmAddTransaction.comments, frmAddTransaction.ammount, "0"});
+        if(((String)frmAddTransaction.type).equals("Expense")){
+            selectedAccount.total -= frmAddTransaction.ammount;
+        }else{
+            selectedAccount.total += frmAddTransaction.ammount;
+        }
+        
+        selectedAccount.model.insertRow(0, new Object[]{
+            frmAddTransaction.date, 
+            frmAddTransaction.type, 
+            frmAddTransaction.category, 
+            frmAddTransaction.comments, 
+            frmAddTransaction.ammount, 
+            selectedAccount.total
+        });
         //selectedAccount.model.insertRow(0, lstAccounts);
     }//GEN-LAST:event_btnAddTransactionActionPerformed
 

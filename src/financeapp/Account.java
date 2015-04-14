@@ -13,10 +13,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Account {
     private String name;
+    Double total;
     DefaultTableModel model;
 
     Account(String name) {
         this.name = name;
+        total = 0.0;
         model = new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
