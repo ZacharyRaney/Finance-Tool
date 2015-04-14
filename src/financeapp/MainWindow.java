@@ -205,7 +205,7 @@ public class MainWindow extends javax.swing.JFrame {
             accountTable.setModel(selectedAccount.model);
             jScrollPane2.revalidate();
             jScrollPane2.repaint();
-        }else{
+        } else {
             accountTable.setModel(emptyModel);
         }
     }//GEN-LAST:event_accountListValueChanged
@@ -223,27 +223,32 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void btnAddTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTransactionActionPerformed
         //model.insertRow(model.getRowCount(), new Object[]{"Test","Type","t","e","s","t"});
-        AddTransaction frmAddTransaction = new AddTransaction(this, true);
-        
-        frmAddTransaction.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
-        frmAddTransaction.setTitle("Add New Account");
-        frmAddTransaction.setVisible(true);
-        
-        if(((String)frmAddTransaction.type).equals("Expense")){
-            selectedAccount.total -= frmAddTransaction.ammount;
-        }else{
-            selectedAccount.total += frmAddTransaction.ammount;
+        if (selectedAccount != null) {
+            AddTransaction frmAddTransaction = new AddTransaction(this, true);
+
+            frmAddTransaction.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
+            frmAddTransaction.setTitle("Add New Account");
+            frmAddTransaction.setVisible(true);
+
+            if (!(frmAddTransaction.date).equals("")) {
+                if (((String) frmAddTransaction.type).equals("Expense")) {
+                    selectedAccount.total -= frmAddTransaction.ammount;
+                } else {
+                    selectedAccount.total += frmAddTransaction.ammount;
+                }
+
+                selectedAccount.model.insertRow(0, new Object[]{
+                    frmAddTransaction.date,
+                    frmAddTransaction.type,
+                    frmAddTransaction.category,
+                    frmAddTransaction.comments,
+                    frmAddTransaction.ammount,
+                    selectedAccount.total
+                });
+
+                //selectedAccount.model.insertRow(0, lstAccounts);
+            }
         }
-        
-        selectedAccount.model.insertRow(0, new Object[]{
-            frmAddTransaction.date, 
-            frmAddTransaction.type, 
-            frmAddTransaction.category, 
-            frmAddTransaction.comments, 
-            frmAddTransaction.ammount, 
-            selectedAccount.total
-        });
-        //selectedAccount.model.insertRow(0, lstAccounts);
     }//GEN-LAST:event_btnAddTransactionActionPerformed
 
     /**

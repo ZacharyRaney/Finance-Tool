@@ -78,6 +78,11 @@ public class AddTransaction extends javax.swing.JDialog {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,6 +168,11 @@ public class AddTransaction extends javax.swing.JDialog {
             comboCategory.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "grocery", "mortgage", "home", "child", "tuition", "health", "car", "entertainment", "dinner", "clothing", "gifts", "adjustments" }));
         }
     }//GEN-LAST:event_comboTypeActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        date = "";
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
