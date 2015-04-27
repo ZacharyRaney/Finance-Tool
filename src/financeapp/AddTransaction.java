@@ -5,6 +5,8 @@
  */
 package financeapp;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author Zack
@@ -51,7 +53,10 @@ public class AddTransaction extends javax.swing.JDialog {
 
         jLabel1.setText("Date:");
 
-        txtDate.setText("01/01/00");
+        //Set todays date as the default when the dialog opens
+        SimpleDateFormat dateformat = new SimpleDateFormat ("MM/dd/yyyy");
+        Date date = new Date();
+        txtDate.setText(dateformat.format(date));
 
         jLabel2.setText("Type:");
 
@@ -98,7 +103,7 @@ public class AddTransaction extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
