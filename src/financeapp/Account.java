@@ -58,6 +58,9 @@ public class Account {
     public String getName(){
         return name;
     }
+    public double getTotal(){
+        return total;
+    }
     
 }
 

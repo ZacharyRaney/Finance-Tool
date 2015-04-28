@@ -87,6 +87,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         btnReport.setText("Report");
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
 
         btdDelete.setText("Delete");
         btdDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -273,6 +278,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnAddTransactionActionPerformed
+
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        Report viewReport = new Report(this,true,lstAccounts);
+        viewReport.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
+            viewReport.setTitle("Add New Account");
+            viewReport.setVisible(true);
+    }//GEN-LAST:event_btnReportActionPerformed
 
     /**
      * @param args the command line arguments
