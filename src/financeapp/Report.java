@@ -248,7 +248,25 @@ public static void main(String args[]) {
     }
 
     private void genSpendTr(String toDate, String fromDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       String formatStr = "%-16s %-20s%-20s %n";
+         
+         
+        String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
+        
+                //String.format(formatStr,"Name", "Balance");
+                Double totalIncome = 0.0;
+                Account q = (Account) this.selectedAccount;
+                ArrayList<Transaction> y = selectedAccount.getTrans();
+                for (int i = 0; i < y.size(); i++) {
+			Transaction cur = (Transaction)(y.get(i));
+                        if (cur.type.equals("Expense") && (fromDate.compareTo(cur.date) * cur.date.compareTo(toDate) >= 0) ){
+                            output+= String.format(formatStr,cur.category,cur.ammount,cur.date);
+                            totalIncome += cur.ammount;
+                        }
+		}
+        output+="\n";
+        output+= String.format(formatStr,"Total Expenditure",totalIncome,"");
+        reportPane.setText(output);
     }
 
     private void genIncome(String toDate, String fromDate) {
