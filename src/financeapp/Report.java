@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package financeapp;
+import java.awt.List;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -19,6 +21,7 @@ public class Report extends javax.swing.JDialog {
     public String fromDate;
     public String type;
     public Vector lstAccounts;
+    public Account selectedAccount;
     /**
      * Creates new form Report
      */
@@ -27,8 +30,9 @@ public class Report extends javax.swing.JDialog {
         initComponents();
     }
 
-    Report(java.awt.Frame parent, boolean modal, Vector lstAccounts) {
+    Report(java.awt.Frame parent, boolean modal, Vector lstAccounts, Account selectedAccount) {
         this.lstAccounts = lstAccounts;
+        this.selectedAccount = selectedAccount;
          initComponents();
          //To change body of generated methods, choose Tools | Templates.
     }
@@ -248,6 +252,24 @@ public static void main(String args[]) {
     }
 
     private void genIncome(String toDate, String fromDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         String formatStr = "%-16s %-20s%-20s %n";
+         
+         
+        String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
+        
+                //String.format(formatStr,"Name", "Balance");
+                Double totalIncome = 0.0;
+                Account q = (Account) this.selectedAccount;
+                ArrayList<Transaction> y = selectedAccount.getTrans();
+                for (int i = 0; i < y.size(); i++) {
+			Transaction cur = (Transaction)(y.get(i));
+                        if (cur.type.equals("Income") && (fromDate.compareTo(cur.date) * cur.date.compareTo(toDate) >= 0) ){
+                            output+= String.format(formatStr,cur.category,cur.ammount,cur.date);
+                            totalIncome += cur.ammount;
+                        }
+		}
+        output+="\n";
+        output+= String.format(formatStr,"Total Income",totalIncome,"");
+        reportPane.setText(output);
     }
 }

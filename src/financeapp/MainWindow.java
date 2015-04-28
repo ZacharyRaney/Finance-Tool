@@ -273,14 +273,22 @@ public class MainWindow extends javax.swing.JFrame {
                     selectedAccount.total
                 });
                 }
-
+                Transaction newtrans = new Transaction(frmAddTransaction.date,
+                    frmAddTransaction.type,
+                    frmAddTransaction.category,
+                    frmAddTransaction.comments,
+                    frmAddTransaction.ammount, selectedAccount.total);
+                selectedAccount.addTrans(newtrans);    
                 //selectedAccount.model.insertRow(0, lstAccounts);
             }
         }
     }//GEN-LAST:event_btnAddTransactionActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        Report viewReport = new Report(this,true,lstAccounts);
+         selectedAccount = (Account) accountList.getSelectedValue();
+        
+        Report viewReport = new Report(this,true,lstAccounts,selectedAccount);
+        
         viewReport.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
             viewReport.setTitle("Add New Account");
             viewReport.setVisible(true);

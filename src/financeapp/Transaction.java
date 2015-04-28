@@ -18,5 +18,28 @@ public class Transaction {
     String comments;
     double ammount;
     double balance;
+
+    Transaction(String date, String type, String category, String comments, double ammount, double balance) {
+        this.date=date;
+        this.type = type;
+        this.category = category;
+        this.comments=comments;
+        this.ammount = ammount;
+        this.balance = balance;
+    }
+    
+     public String getType(){
+        return type;
+    }
+      public Double getAmmount(){
+        return ammount;
+    }
+       public String getDate(){
+        return date;
+    }
+        public String getCategory(){
+        return category;
+    }
     
 }
+

@@ -5,6 +5,8 @@
  */
 package financeapp;
 
+import java.awt.List;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,7 +17,7 @@ public class Account {
     private String name;
     Double total;
     DefaultTableModel model;
-
+    ArrayList<Transaction> trans = new ArrayList<Transaction>();
     Account(String name) {
         this.name = name;
         total = 0.0;
@@ -60,6 +62,12 @@ public class Account {
     }
     public double getTotal(){
         return total;
+    }
+    public void addTrans(Transaction x){
+        trans.add(x);
+    }
+    public ArrayList getTrans(){
+        return trans;
     }
     
 }
