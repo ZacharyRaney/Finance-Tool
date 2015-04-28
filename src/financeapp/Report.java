@@ -248,7 +248,7 @@ public static void main(String args[]) {
     }
 
     private void genSpendTr(String toDate, String fromDate) {
-       String formatStr = "%-16s %-20s%-20s %n";
+       String formatStr = "%-16s %-20s%-20s%-20s %n";
          
          
         String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
@@ -260,12 +260,12 @@ public static void main(String args[]) {
                 for (int i = 0; i < y.size(); i++) {
 			Transaction cur = (Transaction)(y.get(i));
                         if (cur.type.equals("Expense") && (fromDate.compareTo(cur.date) * cur.date.compareTo(toDate) >= 0) ){
-                            output+= String.format(formatStr,cur.category,cur.ammount,cur.date);
+                            output+= String.format(formatStr,cur.category,cur.comments,cur.ammount,cur.date);
                             totalIncome += cur.ammount;
                         }
 		}
         output+="\n";
-        output+= String.format(formatStr,"Total Expenditure",totalIncome,"");
+        output+= String.format(formatStr,"Total Expenditure",totalIncome,"","");
         reportPane.setText(output);
     }
 
