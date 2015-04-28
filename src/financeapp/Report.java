@@ -8,7 +8,9 @@ import java.awt.List;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
@@ -244,11 +246,39 @@ public static void main(String args[]) {
     }
 
     private void genSpendAn(String toDate, String fromDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     String formatStr = "%-16s %-20s%-20s %n";
+         
+         
+        String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
+                Map<String, Double> map = new HashMap<String, Double>();
+                //String.format(formatStr,"Name", "Balance");
+                Double totalIncome = 0.0;
+                Account q = (Account) this.selectedAccount;
+                ArrayList<Transaction> y = selectedAccount.getTrans();
+                for (int i = 0; i < y.size(); i++) {
+			Transaction cur = (Transaction)(y.get(i));
+                        if (cur.type.equals("Expense") && (fromDate.compareTo(cur.date) * cur.date.compareTo(toDate) >= 0) ){
+                            if(map.containsKey(cur.category)){
+                                map.put(cur.category, map.get(cur.category) + cur.ammount);
+                                        }
+                            else map.put(cur.category, cur.ammount);
+                            totalIncome += cur.ammount;
+                        }
+		}
+                Iterator it = map.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    output+= String.format(formatStr,pair.getKey(), pair.getValue(),(int)Math.ceil(((Double)pair.getValue()*100)/totalIncome) + "%");
+                    it.remove(); // avoids a ConcurrentModificationException
+                }
+        output+="\n";
+        output+= String.format(formatStr,"Total Expenditure",totalIncome,"","");
+        reportPane.setText(output);
     }
 
     private void genSpendTr(String toDate, String fromDate) {
-       String formatStr = "%-16s %-20s%-20s%-20s %n";
+       String formatStr = "%-16s %-20s%-20s%-4s% %n";
          
          
         String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
