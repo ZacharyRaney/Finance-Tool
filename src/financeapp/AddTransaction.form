@@ -164,6 +164,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtComment">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>

@@ -246,7 +246,7 @@ public static void main(String args[]) {
     }
 
     private void genSpendAn(String toDate, String fromDate) {
-     String formatStr = "%-16s %-20s%-20s %n";
+     String formatStr = "%-16s %-20s%-20s% %n";
          
          
         String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
@@ -278,7 +278,7 @@ public static void main(String args[]) {
     }
 
     private void genSpendTr(String toDate, String fromDate) {
-       String formatStr = "%-16s %-20s%-20s%-20s% %n";
+       String formatStr = "%-16s %-20s%-10s%-20s %n";
          
          
         String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
@@ -295,7 +295,7 @@ public static void main(String args[]) {
                         }
 		}
         output+="\n";
-        output+= String.format(formatStr,"Total Expenditure",totalIncome,"","");
+        output+= String.format(formatStr,"Total Expenditure",totalIncome.toString()," "," ");
         reportPane.setText(output);
     }
 

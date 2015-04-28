@@ -73,6 +73,9 @@ public class AddTransaction extends javax.swing.JDialog {
 
         jLabel4.setText("Comments:");
 
+        txtComment.setText(" ");
+        txtComment.setToolTipText("");
+
         jLabel5.setText("Ammount:");
 
         btnAccept.setText("Accept");

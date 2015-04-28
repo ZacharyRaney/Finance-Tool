@@ -40,6 +40,7 @@ public class Transaction {
         public String getCategory(){
         return category;
     }
+        
     
 }
 
