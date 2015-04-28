@@ -290,7 +290,7 @@ public class MainWindow extends javax.swing.JFrame {
         Report viewReport = new Report(this,true,lstAccounts,selectedAccount);
         
         viewReport.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
-            viewReport.setTitle("Add New Account");
+            viewReport.setTitle("Report");
             viewReport.setVisible(true);
     }//GEN-LAST:event_btnReportActionPerformed
 
