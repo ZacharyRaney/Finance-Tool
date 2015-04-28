@@ -278,7 +278,7 @@ public static void main(String args[]) {
     }
 
     private void genSpendTr(String toDate, String fromDate) {
-       String formatStr = "%-16s %-20s%-20s%-4s% %n";
+       String formatStr = "%-16s %-20s%-20s%-20s% %n";
          
          
         String output = "Period: " + fromDate + " to " + toDate  + "\n\n";
