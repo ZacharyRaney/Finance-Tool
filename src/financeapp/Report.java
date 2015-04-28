@@ -223,14 +223,16 @@ public static void main(String args[]) {
         //String output = "";
         String formatStr = "%-16s %-20s%n";
         String output = String.format(formatStr,"Name", "Balance");
-        
+        Double totalBalance = 0.0;
         Iterator itr = lstAccounts.iterator();
         while (itr.hasNext()) {
                 Account q = (Account) itr.next();
                  output+= String.format(formatStr,q.getName(), Double.toString(q.getTotal()));
                 System.out.println(q.getName());
+                totalBalance+=q.getTotal();
             }
-        
+         output+= '\n';
+        output+= String.format(formatStr,"Total Balance ",totalBalance);
         reportPane.setText(output);
     }
 }
