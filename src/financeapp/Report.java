@@ -71,7 +71,7 @@ public class Report extends javax.swing.JDialog {
 
         jLabel2.setText("to");
 
-        reportType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Balance", "Income", "Spending" }));
+        reportType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Balance", "Income", "Spending Transaction", "Spending Analysis" }));
         reportType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reportTypeActionPerformed(evt);
@@ -159,8 +159,11 @@ public class Report extends javax.swing.JDialog {
        fromDate = txtFromDate.getText();
        type = (String) reportType.getSelectedItem();
         System.out.println(toDate + fromDate + type);
-        
+       // Balance, Income, Spending Transaction, Sending Analysis
         if(type.equals("Balance")) genBalance(toDate,fromDate);
+        if(type.equals("Income")) genIncome(toDate,fromDate);
+        if(type.equals("Spending Transaction")) genSpendTr(toDate,fromDate);
+        if(type.equals("Spending Analysis")) genSpendAn(toDate,fromDate);
         
     }//GEN-LAST:event_genReportActionPerformed
 
@@ -234,5 +237,17 @@ public static void main(String args[]) {
          output+= '\n';
         output+= String.format(formatStr,"Total Balance ",totalBalance);
         reportPane.setText(output);
+    }
+
+    private void genSpendAn(String toDate, String fromDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void genSpendTr(String toDate, String fromDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void genIncome(String toDate, String fromDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
