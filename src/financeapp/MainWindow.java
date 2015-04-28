@@ -43,6 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
         btdDelete = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnAddTransaction = new javax.swing.JButton();
+        btnDeleteTransaction = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +115,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        btnDeleteTransaction.setText("Delete Transaction");
+        btnDeleteTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteTransactionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,8 +139,10 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(btdDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(161, 161, 161)
                         .addComponent(btnAddTransaction)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeleteTransaction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnReport)))
                 .addContainerGap())
@@ -150,7 +160,8 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(btnReport)
                     .addComponent(btdDelete)
                     .addComponent(btnEdit)
-                    .addComponent(btnAddTransaction))
+                    .addComponent(btnAddTransaction)
+                    .addComponent(btnDeleteTransaction))
                 .addContainerGap())
         );
 
@@ -248,9 +259,9 @@ public class MainWindow extends javax.swing.JFrame {
             AddTransaction frmAddTransaction = new AddTransaction(this, true);
 
             frmAddTransaction.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
-            frmAddTransaction.setTitle("Add New Account");
+            frmAddTransaction.setTitle("Add New Transaction");
             frmAddTransaction.setVisible(true);
-
+            
             if (!(frmAddTransaction.date).equals("")) {
                 if (((String) frmAddTransaction.type).equals("Expense")) {
                     selectedAccount.total -= frmAddTransaction.ammount;
@@ -296,6 +307,18 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnReportActionPerformed
 
+    private void btnDeleteTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTransactionActionPerformed
+        selectedAccount = (Account) accountList.getSelectedValue();
+        if(selectedAccount != null){
+            int selectedTransaction = accountTable.getSelectedRow();
+            if(selectedTransaction != -1){
+                selectedAccount.model.removeRow(selectedTransaction);
+                selectedAccount.trans.remove(selectedTransaction);
+            }
+        }
+        
+    }//GEN-LAST:event_btnDeleteTransactionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -337,6 +360,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btdDelete;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddTransaction;
+    private javax.swing.JButton btnDeleteTransaction;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReport;
     private javax.swing.JScrollPane jScrollPane1;
