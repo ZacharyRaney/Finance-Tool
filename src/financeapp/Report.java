@@ -95,7 +95,7 @@ public class Report extends javax.swing.JDialog {
         txtToDate.setText(dateformat.format(tdate));
         txtToDate.setToolTipText("");
 
-        reportPane.setFont(new java.awt.Font("Miriam Fixed", 0, 11)); // NOI18N
+        reportPane.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(reportPane);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
