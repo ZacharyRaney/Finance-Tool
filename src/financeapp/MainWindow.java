@@ -214,9 +214,25 @@ public class MainWindow extends javax.swing.JFrame {
         //Reusing add account form
         AddAccount frmAddAccount = new AddAccount(this, true, selectedAccount.getName()); //Make the window
         frmAddAccount.setVisible(true);
+        
+        if (!"".equals(frmAddAccount.name)) {
+            Account account = new Account(frmAddAccount.name);
 
-        selectedAccount.setName(frmAddAccount.name);
+            Iterator itr = lstAccounts.iterator();
+            boolean canAdd = true;
 
+            while (itr.hasNext()) {
+                Account q = (Account) itr.next();
+                if (q.getName().equals(account.getName())) {
+                    JOptionPane.showMessageDialog(this, "Account with that name already exists");
+                    canAdd = false;
+                }
+            }
+            if (canAdd) {
+                selectedAccount.setName(frmAddAccount.name);
+            }
+        
+        }
         jScrollPane1.revalidate();
         jScrollPane1.repaint();
     }//GEN-LAST:event_btnEditActionPerformed
