@@ -229,6 +229,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         //Reusing add account form
         AddAccount frmAddAccount = new AddAccount(this, true, selectedAccount.getName()); //Make the window
+        frmAddAccount.setLocationRelativeTo(this);
         frmAddAccount.setVisible(true);
 
         if (!"".equals(frmAddAccount.name)) {
@@ -239,7 +240,7 @@ public class MainWindow extends javax.swing.JFrame {
 
             while (itr.hasNext()) {
                 Account q = (Account) itr.next();
-                if (q.getName().equals(account.getName())) {
+                if (q.getName().equals(account.getName()) && !q.getName().equals(selectedAccount.getName())) {
                     JOptionPane.showMessageDialog(this, "Account with that name already exists");
                     canAdd = false;
                 }
