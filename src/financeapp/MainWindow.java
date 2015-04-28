@@ -219,7 +219,7 @@ public class MainWindow extends javax.swing.JFrame {
         //Reusing add account form
         AddAccount frmAddAccount = new AddAccount(this, true, selectedAccount.getName()); //Make the window
         frmAddAccount.setVisible(true);
-        
+
         if (!"".equals(frmAddAccount.name)) {
             Account account = new Account(frmAddAccount.name);
 
@@ -236,7 +236,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (canAdd) {
                 selectedAccount.setName(frmAddAccount.name);
             }
-        
+
         }
         jScrollPane1.revalidate();
         jScrollPane1.repaint();
@@ -255,43 +255,45 @@ public class MainWindow extends javax.swing.JFrame {
                 if (((String) frmAddTransaction.type).equals("Expense")) {
                     selectedAccount.total -= frmAddTransaction.ammount;
                     selectedAccount.model.insertRow(0, new Object[]{
-                    frmAddTransaction.date,
-                    frmAddTransaction.type,
-                    frmAddTransaction.category,
-                    frmAddTransaction.comments,
-                    "("+ frmAddTransaction.ammount + ")",
-                    selectedAccount.total
-                });
+                        frmAddTransaction.date,
+                        frmAddTransaction.type,
+                        frmAddTransaction.category,
+                        frmAddTransaction.comments,
+                        "(" + frmAddTransaction.ammount + ")",
+                        selectedAccount.total
+                    });
                 } else {
                     selectedAccount.total += frmAddTransaction.ammount;
                     selectedAccount.model.insertRow(0, new Object[]{
-                    frmAddTransaction.date,
-                    frmAddTransaction.type,
-                    frmAddTransaction.category,
-                    frmAddTransaction.comments,
-                    frmAddTransaction.ammount,
-                    selectedAccount.total
-                });
+                        frmAddTransaction.date,
+                        frmAddTransaction.type,
+                        frmAddTransaction.category,
+                        frmAddTransaction.comments,
+                        frmAddTransaction.ammount,
+                        selectedAccount.total
+                    });
                 }
                 Transaction newtrans = new Transaction(frmAddTransaction.date,
-                    frmAddTransaction.type,
-                    frmAddTransaction.category,
-                    frmAddTransaction.comments,
-                    frmAddTransaction.ammount, selectedAccount.total);
-                selectedAccount.addTrans(newtrans);    
+                        frmAddTransaction.type,
+                        frmAddTransaction.category,
+                        frmAddTransaction.comments,
+                        frmAddTransaction.ammount, selectedAccount.total);
+                selectedAccount.addTrans(newtrans);
                 //selectedAccount.model.insertRow(0, lstAccounts);
             }
         }
     }//GEN-LAST:event_btnAddTransactionActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-         selectedAccount = (Account) accountList.getSelectedValue();
-        
-        Report viewReport = new Report(this,true,lstAccounts,selectedAccount);
-        
-        viewReport.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
+        selectedAccount = (Account) accountList.getSelectedValue();
+
+        if (selectedAccount != null) {
+            Report viewReport = new Report(this, true, lstAccounts, selectedAccount);
+
+            viewReport.setLocationRelativeTo(this);//Always keeps the dialog in the center of the MainWindow
             viewReport.setTitle("Report");
             viewReport.setVisible(true);
+        }
     }//GEN-LAST:event_btnReportActionPerformed
 
     /**
